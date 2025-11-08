@@ -67,87 +67,92 @@ function App() {
   // console.log(cartItems);
   // console.log(users);
 
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: (
+          <Navbar
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            users={users}
+          />
+        ),
+        errorElement: <ErrorPage />,
+        children: [
+          //we define individual routes, parent and child relationship
+          //1st children of Navbar
+          {
+            path: "/",
+            element: (
+              <HomePage
+                // setCartItems={setCartItems}
+                users={users}
+                isLoggedIn={isLoggedIn}
+              />
+            ),
+            children: [
+              {
+                path: "",
+                element: <FilterSidebar />,
+              },
+            ],
+          },
+
+          //2nd children of Navbar
+          {
+            path: "/cart",
+            element: (
+              // <ProtectedRoutes>
+              <CartPage
+                // cartItems={cartItems}
+                users={users}
+                // isLoggedIn={isLoggedIn}
+                // setCartItems={setCartItems}
+                // setOrderedItems={setOrderedItems}
+              />
+              // </ProtectedRoutes>
+            ),
+            children: [
+              {
+                path: "",
+                element: <FilterSidebar />,
+              },
+            ],
+          },
+
+          //3rd children of Navbar
+          {
+            path: "/myorders/:userId",
+            element: (
+              // <ProtectedRoutes>
+              <OrdersPage />
+              // </ProtectedRoutes>
+            ),
+          },
+
+          //4th children of Navbar
+          {
+            path: "/signup",
+            element: <RegisterPage setUsers={setUsers} />,
+          },
+          {
+            path: "/signin",
+            element: (
+              <LoginPage
+                setIsLoggedIn={setIsLoggedIn}
+                users={users}
+                setUsers={setUsers}
+              />
+            ),
+          },
+        ],
+      },
+    ],
     {
-      path: "/",
-      element: (
-        <Navbar
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          users={users}
-        />
-      ),
-      errorElement: <ErrorPage />,
-      children: [
-        //we define individual routes, parent and child relationship
-        //1st children of Navbar
-        {
-          path: "/",
-          element: (
-            <HomePage
-              // setCartItems={setCartItems}
-              users={users}
-              isLoggedIn={isLoggedIn}
-            />
-          ),
-          children: [
-            {
-              path: "",
-              element: <FilterSidebar />,
-            },
-          ],
-        },
-
-        //2nd children of Navbar
-        {
-          path: "/cart",
-          element: (
-            // <ProtectedRoutes>
-            <CartPage
-              // cartItems={cartItems}
-              users={users}
-              // isLoggedIn={isLoggedIn}
-              // setCartItems={setCartItems}
-              // setOrderedItems={setOrderedItems}
-            />
-            // </ProtectedRoutes>
-          ),
-          children: [
-            {
-              path: "",
-              element: <FilterSidebar />,
-            },
-          ],
-        },
-
-        //3rd children of Navbar
-        {
-          path: "/myorders/:userId",
-          element: (
-            // <ProtectedRoutes>
-            <OrdersPage />
-            // </ProtectedRoutes>
-          ),
-        },
-
-        //4th children of Navbar
-        {
-          path: "/signup",
-          element: <RegisterPage setUsers={setUsers} />,
-        },
-        {
-          path: "/signin",
-          element: (
-            <LoginPage
-              setIsLoggedIn={setIsLoggedIn}
-              users={users}
-              setUsers={setUsers}
-            />
-          ),
-        },
-      ],
-    },
-  ]);
+      basename: "/buybusy", // 👈 VERY IMPORTANT
+    }
+  );
   return (
     <>
       <RouterProvider router={router} />
