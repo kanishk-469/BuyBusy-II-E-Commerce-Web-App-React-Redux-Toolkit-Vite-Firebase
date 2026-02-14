@@ -5,6 +5,7 @@
   flex-direction: column;
   align-items: center;
   margin: 40px auto;
+  position: relative;
 }
 
 .searchContainer {
@@ -131,4 +132,33 @@
   background-color: #f14544;
   color: white;
   cursor: pointer;
+}
+
+.pageLayout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 250px;
+}
+
+.mainContent {
+  flex: 1;
+}
+
+.mobileFilter {
+  margin-bottom: 20px;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .pageLayout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    display: none;
+  }
 }

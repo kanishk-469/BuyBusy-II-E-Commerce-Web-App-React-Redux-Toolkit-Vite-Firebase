@@ -1,9 +1,10 @@
 .container {
   background-color: #ffffff;
+  background-color: #f14544;
   height: 70px;
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
+  align-items: center;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.4);
   /* -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75); */
@@ -20,7 +21,7 @@
   font-weight: bold;
   font-size: 20px;
 }
-.navItems {
+.navMenu {
   /* background-color: red; */
   list-style: none;
   display: flex;
@@ -42,4 +43,56 @@
 .navItem span {
   font-weight: bold;
   font-size: 20px;
+}
+
+.navMobClose {
+  display: none;
+}
+
+.navMobOpen {
+  display: none;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .navMenu {
+    position: fixed;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    top: 0;
+    /* gap: 1px;
+    padding: 0px; */
+    background-color: #f0f0fc;
+    width: 200px;
+    height: 25%;
+    border-bottom-left-radius: 8px;
+
+    box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    transition: right 0.5s;
+    right: -350px;
+  }
+
+  .navItem span {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .navItem img {
+    width: 30px;
+  }
+  .navMobOpen {
+    display: block;
+    position: fixed;
+    right: 30px;
+  }
+  .navMobClose {
+    display: block;
+
+    position: relative;
+    top: 7px;
+    left: 115px;
+    width: 20px;
+  }
 }

@@ -1,7 +1,20 @@
 import { NavLink, Outlet, Link } from "react-router-dom";
 import style from "./Navbar.module.css";
+import { useState, useRef } from "react";
 
 function Navbar({ isLoggedIn, setIsLoggedIn, users }) {
+  const [menu, setMenu] = useState("home");
+  const menuRef = useRef();
+
+  const openMenu = () => {
+    // menuRef.current.classList.toggle(style.menuOpen);
+    menuRef.current.style.right = "0";
+  };
+
+  const closeMenu = () => {
+    // menuRef.current.classList.toggle(style.menuOpen);
+    menuRef.current.style.right = "-350px";
+  };
   function handleLogout() {
     setIsLoggedIn(false);
   }
@@ -9,8 +22,21 @@ function Navbar({ isLoggedIn, setIsLoggedIn, users }) {
     <>
       <div className={style.container}>
         <div className={style.brandName}>Busy Buy</div>
+        <img
+          src={`${import.meta.env.BASE_URL}icons/menu_open.svg`}
+          onClick={openMenu}
+          alt=""
+          className={style.navMobOpen}
+        />
 
-        <ul className={style.navItems}>
+        <ul ref={menuRef} className={style.navMenu}>
+          <img
+            src={`${import.meta.env.BASE_URL}icons/menu_close.svg`}
+            alt=""
+            onClick={closeMenu}
+            className={style.navMobClose}
+          />
+
           <NavLink to="/">
             <li className={style.navItem}>
               <img

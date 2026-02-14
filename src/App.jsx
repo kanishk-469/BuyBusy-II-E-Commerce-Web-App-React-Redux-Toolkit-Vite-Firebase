@@ -94,7 +94,11 @@ function App() {
             children: [
               {
                 path: "",
-                element: <FilterSidebar />,
+                element: (
+                  <div className="filter-sidebar-wrapper">
+                    <FilterSidebar />
+                  </div>
+                ),
               },
             ],
           },
@@ -116,7 +120,11 @@ function App() {
             children: [
               {
                 path: "",
-                element: <FilterSidebar />,
+                element: (
+                  <div className="cart-wrapper-filter-sidebar">
+                    <FilterSidebar />
+                  </div>
+                ),
               },
             ],
           },
@@ -153,6 +161,7 @@ function App() {
       basename: "/buybusy", // 👈 VERY IMPORTANT
     }
   );
+
   return (
     <>
       <RouterProvider router={router} />
