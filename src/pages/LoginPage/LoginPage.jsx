@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app, db } from "../../configDB/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import Footer from "../../components/Footer/Footer";
 
 const auth1 = getAuth(app);
 
@@ -68,17 +67,13 @@ function LoginPage({ setIsLoggedIn, users, setUsers }) {
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
-        const loggedInUser = userDocSnap.data();
+        const userData = userDocSnap.data();
 
-        console.log("Full user data:", loggedInUser);
+        console.log("Full user data:", userData);
 
         // Set full user data in state
-        setUsers([loggedInUser]);
+        setUsers([userData]);
         setIsLoggedIn(true);
-
-        ///so that after refresh also logged In User won't gone
-        localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-
         setFirebaseError("");
         Navigate("/cart");
       } else {
@@ -109,50 +104,47 @@ function LoginPage({ setIsLoggedIn, users, setUsers }) {
   }
 
   return (
-    <>
-      <div className={style.container}>
-        <div className={style.formContainer}>
-          <h2 className={style.signupHeading}>Sign In</h2>
-          {firebaseError && <p className={style.error}>{firebaseError}</p>}
+    <div className={style.container}>
+      <div className={style.formContainer}>
+        <h2 className={style.signupHeading}>Sign In</h2>
+        {firebaseError && <p className={style.error}>{firebaseError}</p>}
 
-          <form onSubmit={handleFormSubmit} className={style.signupForm}>
-            <div>
-              <input
-                type="email"
-                name="email"
-                className={style.formInput}
-                placeholder="Enter Email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-              {errors.email && <p className={style.error}>{errors.email}</p>}
-            </div>
+        <form onSubmit={handleFormSubmit} className={style.signupForm}>
+          <div>
+            <input
+              type="email"
+              name="email"
+              className={style.formInput}
+              placeholder="Enter Email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <p className={style.error}>{errors.email}</p>}
+          </div>
 
-            <div>
-              <input
-                type="password"
-                name="password"
-                className={style.formInput}
-                placeholder="Enter Password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              {errors.password && (
-                <p className={style.error}>{errors.password}</p>
-              )}
-            </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              className={style.formInput}
+              placeholder="Enter Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            {errors.password && (
+              <p className={style.error}>{errors.password}</p>
+            )}
+          </div>
 
-            <button type="submit" className={style.signinBtn}>
-              Sign In
-            </button>
-            <Link to="/signup">
-              <p>Or Sign Up Instead</p>
-            </Link>
-          </form>
-        </div>
+          <button type="submit" className={style.signinBtn}>
+            Sign In
+          </button>
+          <Link to="/signup">
+            <p>Or Sign Up Instead</p>
+          </Link>
+        </form>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 }
 
