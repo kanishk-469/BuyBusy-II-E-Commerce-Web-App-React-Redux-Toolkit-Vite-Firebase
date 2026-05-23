@@ -203,7 +203,7 @@ function CartPage({ users }) {
       <Outlet
         context={{
           cartItems: cartItemsWithProductDetails,
-          userId: users[0].id,
+          userId: users?.[0]?.id,
           // setCartItems,
           // setOrderedItems,
         }}

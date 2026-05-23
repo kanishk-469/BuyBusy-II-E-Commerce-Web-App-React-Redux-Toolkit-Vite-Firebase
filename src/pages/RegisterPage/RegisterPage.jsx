@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { app, db } from "../../configDB/firebase";
+import Footer from "../../components/Footer/Footer.jsx";
 
 const auth = getAuth(app);
 
@@ -96,59 +97,62 @@ function RegisterPage({ setUsers }) {
   }
 
   return (
-    <div className={style.container}>
-      <div className={style.formContainer}>
-        {success && (
-          <p style={{ color: "green" }}>User Registered Successfully</p>
-        )}
-        {firebaseError && <p style={{ color: "red" }}>{firebaseError}</p>}
-        <h2 className={style.signupHeading}>Sign Up</h2>
+    <>
+      <div className={style.container}>
+        <div className={style.formContainer}>
+          {success && (
+            <p style={{ color: "green" }}>User Registered Successfully</p>
+          )}
+          {firebaseError && <p style={{ color: "red" }}>{firebaseError}</p>}
+          <h2 className={style.signupHeading}>Sign Up</h2>
 
-        <form onSubmit={handleFormSubmit} className={style.signupForm}>
-          <div>
-            <input
-              type="text"
-              name="name"
-              className={style.formInput}
-              placeholder="Enter Name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && <p className={style.error}>{errors.name}</p>}
-          </div>
+          <form onSubmit={handleFormSubmit} className={style.signupForm}>
+            <div>
+              <input
+                type="text"
+                name="name"
+                className={style.formInput}
+                placeholder="Enter Name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && <p className={style.error}>{errors.name}</p>}
+            </div>
 
-          <div>
-            <input
-              type="email"
-              name="email"
-              className={style.formInput}
-              placeholder="Enter Email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <p className={style.error}>{errors.email}</p>}
-          </div>
+            <div>
+              <input
+                type="email"
+                name="email"
+                className={style.formInput}
+                placeholder="Enter Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && <p className={style.error}>{errors.email}</p>}
+            </div>
 
-          <div>
-            <input
-              type="password"
-              name="password"
-              className={style.formInput}
-              placeholder="Enter Password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-            {errors.password && (
-              <p className={style.error}>{errors.password}</p>
-            )}
-          </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                className={style.formInput}
+                placeholder="Enter Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              {errors.password && (
+                <p className={style.error}>{errors.password}</p>
+              )}
+            </div>
 
-          <button type="submit" className={style.signupBtn}>
-            Sign Up
-          </button>
-        </form>
+            <button type="submit" className={style.signupBtn}>
+              Sign Up
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
 
