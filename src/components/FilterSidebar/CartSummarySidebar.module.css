@@ -11,6 +11,7 @@
   z-index: 9;
   border-radius: 9px;
   /* box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.4); */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 }
 
 .filterContainer {
@@ -36,8 +37,8 @@
 }
 
 /* .priceSlider > input {
-  width: 100%;
-} */
+    width: 100%;
+  } */
 
 .priceSlider input[type="range"] {
   width: 100%;
@@ -92,4 +93,18 @@
   color: #f0f0fc;
   border: none;
   cursor: pointer;
+  width: 100%;
+  padding: 10px;
+}
+
+@media screen and (max-width: 1100px) {
+  .container {
+    position: relative;
+
+    top: 0;
+    left: 0;
+
+    width: 90%;
+    margin: 20px auto;
+  }
 }
