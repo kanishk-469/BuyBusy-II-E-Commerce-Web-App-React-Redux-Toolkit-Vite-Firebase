@@ -1,43 +1,55 @@
 import { NavLink, Outlet, Link } from "react-router-dom";
 import style from "./Navbar.module.css";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
-function Navbar({ isLoggedIn, setIsLoggedIn, users }) {
+function Navbar({ isLoggedIn, setIsLoggedIn, users, setUsers }) {
   const [menu, setMenu] = useState("home");
-  const menuRef = useRef();
 
-  const openMenu = () => {
-    // menuRef.current.classList.toggle(style.menuOpen);
-    menuRef.current.style.right = "0";
-  };
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // for production react app
 
-  const closeMenu = () => {
-    // menuRef.current.classList.toggle(style.menuOpen);
-    menuRef.current.style.right = "-350px";
-  };
+  const openMenu = () => setIsMenuOpen(true);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
   function handleLogout() {
+    //debug
+    // console.log("Navbar:", {
+    //   isLoggedIn,
+    //   users,
+    // });
+
     setIsLoggedIn(false);
+    setUsers([]);
+
+    localStorage.removeItem("loggedInUser");
+
+    ///debug, state updates are asynchronous in nature
+    // console.log("Navbar:", {
+    //   isLoggedIn,
+    //   users,
+    // });
   }
   return (
     <>
       <div className={style.container}>
-        <div className={style.brandName}>Busy Buy</div>
+        <div className={style.brandName}>🛍️ BuyBusy</div>
         <img
-          src={`${import.meta.env.BASE_URL}icons/menu_open.svg`}
+          src={`${import.meta.env.BASE_URL}icons/menu_open2.svg`}
           onClick={openMenu}
           alt=""
           className={style.navMobOpen}
         />
+        {isMenuOpen && <div className={style.overlay} onClick={closeMenu} />}
 
-        <ul ref={menuRef} className={style.navMenu}>
+        <ul className={`${style.navMenu} ${isMenuOpen ? style.open : ""}`}>
           <img
-            src={`${import.meta.env.BASE_URL}icons/menu_close.svg`}
+            src={`${import.meta.env.BASE_URL}icons/menu_close2.svg`}
             alt=""
             onClick={closeMenu}
             className={style.navMobClose}
           />
 
-          <NavLink to="/">
+          <NavLink to="/" onClick={closeMenu}>
             <li className={style.navItem}>
               <img
                 src={`${import.meta.env.BASE_URL}icons/home.png`}
@@ -47,7 +59,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn, users }) {
             </li>
           </NavLink>
           {isLoggedIn ? (
-            <NavLink to={`/myorders/${users[0].id}`}>
+            <NavLink to={`/myorders/${users?.[0]?.id}`} onClick={closeMenu}>
               <li className={style.navItem}>
                 <img
                   src={`${import.meta.env.BASE_URL}icons/myOrder.png`}
@@ -58,7 +70,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn, users }) {
             </NavLink>
           ) : null}
           {isLoggedIn && (
-            <NavLink to="/cart">
+            <NavLink to="/cart" onClick={closeMenu}>
               <li className={style.navItem}>
                 <img
                   src={`${import.meta.env.BASE_URL}icons/cart.png`}
@@ -70,8 +82,8 @@ function Navbar({ isLoggedIn, setIsLoggedIn, users }) {
           )}
 
           {isLoggedIn ? (
-            <NavLink to="/signin">
-              <li className={style.navItem} onClick={handleLogout}>
+            <NavLink to="/signin" onClick={handleLogout}>
+              <li className={style.navItem}>
                 <img
                   src={`${import.meta.env.BASE_URL}icons/logout.png`}
                   alt="logout"
@@ -80,7 +92,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn, users }) {
               </li>
             </NavLink>
           ) : (
-            <NavLink to="/signin">
+            <NavLink to="/signin" onClick={closeMenu}>
               <li className={style.navItem}>
                 <img
                   src={`${import.meta.env.BASE_URL}icons/login.png`}

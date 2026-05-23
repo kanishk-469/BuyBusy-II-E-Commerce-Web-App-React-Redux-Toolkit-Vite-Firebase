@@ -4,13 +4,21 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./App.css";
+import { useEffect, useState, lazy, Suspense } from "react";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import ErrorPage from "./pages/NotFoundPage/ErrorPage.jsx";
-import HomePage from "./pages/HomePage/HomePage.jsx";
-import FilterSidebar from "./components/FilterSidebar/FilterSidebar.jsx";
-import CartPage from "./pages/CartPage/CartPage.jsx";
-import { useEffect, useState } from "react";
-import OrdersPage from "./pages/OrdersPage/OrdersPage.jsx";
+
+// import HomePage from "./pages/HomePage/HomePage.jsx";
+// import CartPage from "./pages/CartPage/CartPage.jsx";
+// import OrdersPage from "./pages/OrdersPage/OrdersPage.jsx";
+
+///lazy loading , works at bundle level
+const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
+
+const CartPage = lazy(() => import("./pages/CartPage/CartPage"));
+
+const OrdersPage = lazy(() => import("./pages/OrdersPage/OrdersPage"));
+
 import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 // import { collection, getDocs } from "firebase/firestore";
@@ -20,32 +28,36 @@ import LoginPage from "./pages/LoginPage/LoginPage.jsx";
 import { useDispatch } from "react-redux";
 
 import { getInitialCartValueAsync } from "./redux/reducers/cartReducer.js"; //getInitialCartValueAsync
+import HomeFilterSidebar from "./components/FilterSidebar/HomeFilterSidebar.jsx";
+import CartSummarySidebar from "./components/FilterSidebar/CartSummarySidebar.jsx";
+import Loader from "./components/Loader/Loader.jsx";
 
 function App() {
-  // const [cartItems, setCartItems] = useState([]);
-  // const [orderedItems, setOrderedItems] = useState([
-  //   {
-  //     id: 1, // order id
-  //     userId: 1, // reference to user
-  //     productId: 1, // reference to product
-  //     quantity: 2,
-  //     status: "Pending", // Pending / Shipped / Delivered
-  //     orderedAt: new Date().toISOString(),
-  //   },
-  // ]);
   const [users, setUsers] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const savedUser = localStorage.getItem("loggedInUser");
+
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+
+      setUsers([parsedUser]);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   //Define Protected Route wrapper outside router
   const ProtectedRoutes = ({ children }) => {
-    return isLoggedIn ? children : <Navigate to="/signin" replace />;
-  };
+    const savedUser = localStorage.getItem("loggedInUser");
 
-  // const PrivateRoute = ({ children }) => {
-  //   if (!isLoggedIn) return <Navigate to="/" replace={true} />;
-  //   return children;
-  // };
+    return isLoggedIn || savedUser ? (
+      children
+    ) : (
+      <Navigate to="/signin" replace />
+    );
+  };
 
   ////retrieve all cart items from firestore
   useEffect(() => {
@@ -76,11 +88,13 @@ function App() {
             isLoggedIn={isLoggedIn}
             setIsLoggedIn={setIsLoggedIn}
             users={users}
+            setUsers={setUsers}
           />
         ),
         errorElement: <ErrorPage />,
         children: [
           //we define individual routes, parent and child relationship
+
           //1st children of Navbar
           {
             path: "/",
@@ -96,7 +110,8 @@ function App() {
                 path: "",
                 element: (
                   <div className="filter-sidebar-wrapper">
-                    <FilterSidebar />
+                    {/* <FilterSidebar /> */}
+                    <HomeFilterSidebar />
                   </div>
                 ),
               },
@@ -107,22 +122,17 @@ function App() {
           {
             path: "/cart",
             element: (
-              // <ProtectedRoutes>
-              <CartPage
-                // cartItems={cartItems}
-                users={users}
-                // isLoggedIn={isLoggedIn}
-                // setCartItems={setCartItems}
-                // setOrderedItems={setOrderedItems}
-              />
-              // </ProtectedRoutes>
+              <ProtectedRoutes>
+                <CartPage users={users} />
+              </ProtectedRoutes>
             ),
             children: [
               {
                 path: "",
                 element: (
                   <div className="cart-wrapper-filter-sidebar">
-                    <FilterSidebar />
+                    {/* <FilterSidebar /> */}
+                    <CartSummarySidebar />
                   </div>
                 ),
               },
@@ -133,9 +143,9 @@ function App() {
           {
             path: "/myorders/:userId",
             element: (
-              // <ProtectedRoutes>
-              <OrdersPage />
-              // </ProtectedRoutes>
+              <ProtectedRoutes>
+                <OrdersPage />
+              </ProtectedRoutes>
             ),
           },
 
@@ -164,7 +174,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <Suspense fallback={<Loader />}>
+        <RouterProvider router={router} />
+      </Suspense>
     </>
   );
 }
