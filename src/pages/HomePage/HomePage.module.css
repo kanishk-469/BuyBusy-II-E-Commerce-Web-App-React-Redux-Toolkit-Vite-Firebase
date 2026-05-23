@@ -1,23 +1,10 @@
-.pageLayout {
-  display: flex;
-  align-items: flex-start;
-  gap: 30px;
-
-  max-width: 1400px;
-  margin: 20px auto;
-  padding: 0 20px;
-}
-
 .container {
   /* background-color: rgb(192, 160, 160); */
-  /* width: 75vw; */
+  width: 80vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 40px auto;
-  flex: 1;
-
-  width: 100%;
 }
 
 .searchContainer {
@@ -36,8 +23,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 100%;
-  /* width: 75vw; */
+  width: 75vw;
   /* flex-wrap: wrap; */
   justify-content: center;
   gap: 25px;
@@ -112,59 +98,4 @@
   background-color: #6e62e2;
   color: white;
   cursor: pointer;
-}
-
-.loadingContainer {
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #e5e7eb;
-  border-top: 5px solid #2563eb;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.emptyState {
-  width: 100%;
-  min-height: 300px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-  gap: 8px;
-}
-
-.emptyState h3 {
-  margin: 0;
-}
-
-.emptyState p {
-  color: #666;
-}
-
-@media (max-width: 1024px) {
-  .pageLayout {
-    flex-direction: column;
-  }
 }
