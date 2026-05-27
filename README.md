@@ -214,7 +214,7 @@ export const store = configureStore({
   ![Home Page](./screenshots/2.png)
 
 - 🛍️ Product Page:
-  ![Product Page](./screenshots/2.png)
+  ![Product Page](./screenshots/4.png)
 
 - 🛒 Cart Page:
   ![Cart Page](./screenshots/3.png)
