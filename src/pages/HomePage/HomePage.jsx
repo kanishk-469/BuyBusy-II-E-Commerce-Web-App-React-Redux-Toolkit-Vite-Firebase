@@ -21,6 +21,7 @@ import {
 } from "../../redux/reducers/productReducer";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../components/Footer/Footer";
+import Hero from "../../components/Hero/Hero";
 
 function HomePage(props) {
   // const [products, setProducts] = useState([]);
@@ -162,6 +163,7 @@ function HomePage(props) {
 
   return (
     <>
+      <Hero />
       <div className={style.pageLayout}>
         {/* <Outlet context={{ products, setFilteredProducts }} /> */}
         <Outlet
@@ -172,6 +174,7 @@ function HomePage(props) {
             setMaxPrice,
           }}
         />
+        {/* <h1 className="text-4xl font-bold text-purple-600">Tailwind Working</h1> */}
         <div className={style.container}>
           <div className={style.searchContainer}>
             <input
@@ -196,7 +199,11 @@ function HomePage(props) {
               </div>
             ) : (
               filteredProducts.map((product) => (
-                <div className={style.productCardContainer} key={product.id}>
+                <div
+                  className={style.productCardContainer}
+                  key={product.id}
+                  id="products-section"
+                >
                   <div className={style.productCard}>
                     <img
                       src={product.image}

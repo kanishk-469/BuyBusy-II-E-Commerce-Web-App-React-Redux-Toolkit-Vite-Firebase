@@ -77,9 +77,9 @@
   /* margin: 10px 0px 10px 0px; */
 }
 
-.productName {
+/* .productName {
   /* background-color: red; */
-  width: 100%;
+/*width: 100%;
   font-size: 22px;
   font-weight: 500;
   height: 50px;
@@ -87,7 +87,27 @@
   text-align: center;
 
   /* width: 10em; */
-  /* margin: 10px 0px 10px 0px; */
+/* margin: 10px 0px 10px 0px; */
+/*} */
+
+.productName {
+  width: 100%;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  text-align: center;
+
+  line-height: 1.4;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  min-height: 56px;
 }
 
 .productPrice {
